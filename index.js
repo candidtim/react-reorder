@@ -36,7 +36,8 @@
             draggedStyle: draggedStyle,
             originalPosition: draggedStyle,
             held: true,
-            moved: false
+            moved: false,
+            transitionsDisabled: true
           });
         }
       },
@@ -146,6 +147,7 @@
           held: false,
           moved: false
         });
+        setTimeout(this.enableTransitions, 10);
 
         clearTimeout(this.holdTimeout);
         clearInterval(this.scrollIntervalY);
@@ -161,6 +163,9 @@
         window.removeEventListener('touchmove', this.onMouseMove); // Touch move
 
         window.removeEventListener('contextmenu', this.preventDefault);
+      },
+      enableTransitions: function () {
+        this.setState({ transitionsDisabled: undefined });
       },
       getScrollArea: function (value) {
         return Math.max(Math.min(value / 4, this.constants.SCROLL_AREA), this.constants.SCROLL_AREA / 5);
@@ -456,9 +461,11 @@
           className: this.props.listClass,
           onMouseDown: self.listDown,
           onTouchStart: self.listDown,
-          transitionName: this.props.transitionName,
-          transitionEnterTimeout: this.props.transitionEnterTimeout,
-          transitionLeaveTimeout: this.props.transitionLeaveTimeout
+          transitionName: this.props.transitionName || '',
+          transitionEnterTimeout: this.props.transitionEnterTimeout || 0,
+          transitionLeaveTimeout: this.props.transitionLeaveTimeout || 0,
+          transitionEnter: !this.state.transitionsDisabled,
+          transitionLeave: !this.state.transitionsDisabled
         }, list, targetClone());
       }
     });
