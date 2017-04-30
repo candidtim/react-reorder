@@ -129,3 +129,20 @@ small {
     width: percentage(1/2);
   }
 }
+
+.animation-enter {
+  opacity: 0.01;
+  &.animation-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+}
+
+.animation-leave {
+  opacity: 1;
+  &.animation-leave-active {
+    opacity: 0.01;
+    transition: opacity 500ms ease-in;
+  }
+}
+

@@ -35,6 +35,11 @@ var Main = createReactClass({
     var target = event.currentTarget;
     this.setState({prefix: target.value});
   },
+  itemRemoved: function (event) {
+    this.setState({
+      arr: this.state.arr.slice(1)
+    });
+  },
 
   // ----
 
@@ -58,6 +63,8 @@ var Main = createReactClass({
 
       React.createElement('p', null, 'Selected item: ', this.state.clickedItem ? this.state.clickedItem.name : undefined),
 
+      React.createElement('a', {href:'#', onClick: this.itemRemoved}, 'Delete first element'),
+
       React.createElement('p', null,
         'Prefix (shared props): ',
         React.createElement('input', {
@@ -69,6 +76,9 @@ var Main = createReactClass({
 
       React.createElement(Reorder, {
         itemKey: 'name',
+        transitionName: 'animation',
+        transitionEnterTimeout: 500,
+        transitionLeaveTimeout: 500,
         lock: 'horizontal',
         holdTime: '500',
         list: this.state.arr,
@@ -99,6 +109,9 @@ var Main = createReactClass({
 
       React.createElement(Reorder, {
         itemKey: 'name',
+        transitionName: 'animation',
+        transitionEnterTimeout: 500,
+        transitionLeaveTimeout: 500,
         lock: 'vertical',
         holdTime: '250',
         list: this.state.arr,
@@ -114,6 +127,9 @@ var Main = createReactClass({
 
       React.createElement(Reorder, {
         itemKey: 'name',
+        transitionName: 'animation',
+        transitionEnterTimeout: 500,
+        transitionLeaveTimeout: 500,
         holdTime: '0',
         list: this.state.arr,
         template: ListItem,

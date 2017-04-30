@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var getReorderComponent = function (React, ReactDOM, createReactClass) {
+  var getReorderComponent = function (React, ReactDOM, ReactCSSTransitionGroup, createReactClass) {
 
     return createReactClass({
       displayName: 'Reorder',
@@ -452,10 +452,13 @@
           return undefined;
         };
 
-        return React.createElement('div', {
+        return React.createElement(ReactCSSTransitionGroup, {
           className: this.props.listClass,
           onMouseDown: self.listDown,
-          onTouchStart: self.listDown
+          onTouchStart: self.listDown,
+          transitionName: this.props.transitionName,
+          transitionEnterTimeout: this.props.transitionEnterTimeout,
+          transitionLeaveTimeout: this.props.transitionLeaveTimeout
         }, list, targetClone());
       }
     });
@@ -467,11 +470,12 @@
     var React = require('react');
     var ReactDOM = require('react-dom');
     var createReactClass = require('create-react-class');
-    module.exports = getReorderComponent(React, ReactDOM, createReactClass);
+    var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+    module.exports = getReorderComponent(React, ReactDOM, ReactCSSTransitionGroup, createReactClass);
   // Export for amd / require
   } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
-    define(['react', 'react-dom', 'create-react-class'], function (ReactAMD, ReactDOMAMD, createReactClassAMD) { // eslint-disable-line no-undef
-      return getReorderComponent(ReactAMD, ReactDOMAMD, createReactClassAMD);
+    define(['react', 'react-dom', 'react-addons-css-transition-group', 'create-react-class'], function (ReactAMD, ReactDOMAMD, ReactCSSTransitionGroupAMD, createReactClassAMD) { // eslint-disable-line no-undef
+      return getReorderComponent(ReactAMD, ReactDOMAMD, ReactCSSTransitionGroupAMD, createReactClassAMD);
     });
   // Export globally
   } else {
@@ -487,7 +491,7 @@
       root = this;
     }
 
-    root.Reorder = getReorderComponent(root.React, root.ReactDOM, root.createReactClass);
+    root.Reorder = getReorderComponent(root.React, root.ReactDOM, root.ReactCSSTransitionGroup, root.createReactClass);
   }
 
 })();
